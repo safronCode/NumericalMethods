@@ -1,1 +1,1 @@
-# NumericalMethods
+# NumericalMethods / Численные методы
