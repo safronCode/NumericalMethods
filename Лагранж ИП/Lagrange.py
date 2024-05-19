@@ -2,10 +2,6 @@ import sympy
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Initial conditions
-nodeX = [-1.5, -0.75, 0, 0.75, 1.5]
-nodeY = [-1, 5, -10, -5, 4]
-
 # The function returns the coefficients
 def lcoefs(X, symbol):
     coefs = []
@@ -26,30 +22,38 @@ def lpoly(coefs, Y):
         lagrange += nodeY[k] * coefs[k]
     return lagrange
 
+if __name__ == "__main__":
+    # Initial conditions
+    nodeX = [-1.5, -0.75, 0, 0.75, 1.5]
+    nodeY = [-1, 5, -10, -5, 4]
 
-x = sympy.Symbol('x')
-lagrangePoly = lpoly(lcoefs(nodeX, x), nodeY)
-f = sympy.lambdify(x, lagrangePoly)
+    if len(nodeX) != len(nodeY):
+        print("The number of X coordinates does not match with Y coordinates :(")
+        exit()
 
-x_vals = np.linspace(min(nodeX) - 10, max(nodeX) + 10, 500)
-y_vals = f(x_vals)
+    x = sympy.Symbol('x')
+    lagrangePoly = lpoly(lcoefs(nodeX, x), nodeY)
+    f = sympy.lambdify(x, lagrangePoly)
 
-# plotting the graph
-plt.plot(x_vals, y_vals, color='green', label='Lagrange IP')
-plt.scatter(nodeX, nodeY, color='red', label='Interpolation Nodes')
+    x_vals = np.linspace(min(nodeX) - 10, max(nodeX) + 10, 500)
+    y_vals = f(x_vals)
 
-# setting up the graph
-plt.xlabel('X')
-plt.ylabel('Y')
-plt.xlim(min(nodeX) - 10, max(nodeX) + 10)
-plt.ylim(min(nodeY) - 10, max(nodeY) + 10)
-plt.title('Lagrange Interpolation Polynomial with Points')
-plt.legend()
-plt.grid(True)
+    # plotting the graph
+    plt.plot(x_vals, y_vals, color='green', label='Lagrange IP')
+    plt.scatter(nodeX, nodeY, color='red', label='Interpolation Nodes')
 
-plt.show()
+    # setting up the graph
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.xlim(min(nodeX) - 10, max(nodeX) + 10)
+    plt.ylim(min(nodeY) - 10, max(nodeY) + 10)
+    plt.title('Lagrange Interpolation Polynomial with Points')
+    plt.legend()
+    plt.grid(True)
 
-print("\t*Initial conditions:")
-for index in range(0, len(nodeX)):
-    print(f"point ( {nodeX[index]} ; {nodeY[index]} )")
-print(f"\n\t*The Lagrange interpolation polynomial looks like this:\n{lagrangePoly.simplify()}")
+    plt.show()
+
+    print("\t*Initial conditions:")
+    for index in range(0, len(nodeX)):
+        print(f"point ( {nodeX[index]} ; {nodeY[index]} )")
+    print(f"\n\t*The Lagrange interpolation polynomial looks like this:\n{lagrangePoly.simplify()}")
