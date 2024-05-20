@@ -33,7 +33,7 @@ This project contains implementations of various numerical methods using the `sy
 
 ### Interpolation
 
-| Метод                              | Состояние | Название файла                    |
+| Method                             | Status    | File name                         |
 |------------------------------------|-----------|-----------------------------------|
 | Lagrange interpolation polynomial  | ✅       | Интерполяция/Lagrange.py          |
 | Newton interpolation polynomial    | ✅       | Интерполяция/Newton.py            |
