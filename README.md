@@ -1,5 +1,4 @@
-# Численные методы | Numerical methods
-
+# RU | Численные методы
 Этот проект содержит реализации различных численных методов с использованием библиотек `sympy`, `numpy` и `matplotlib`.
 
 ## Используемые библиотеки
@@ -21,6 +20,7 @@
 
 ------------------------------------------------------------------------------------------------------------------------
 
+# ENG | Numerical methods
 This project contains implementations of various numerical methods using the `sympy`, `numpy` and `matplotlib` libraries.
 
 ## Libraries used
