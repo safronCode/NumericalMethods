@@ -1,1 +1,74 @@
+import matplotlib.pyplot as plt
+import sympy
+
+
+# The function calculates the x-points and the y-points placed by them
+def rungekutta(start_stop, koshi, step, symbols, f):
+
+    # Load symbols and elements with index 0
+    sym_x = symbols[0]
+    sym_y = symbols[1]
+    x_list = [start_stop[0]]
+    y_list = [koshi[1]]
+
+    # Using the method, we fill the arrays with x-points and y-points
+    for i in range(1, int((abs(start_stop[1] - start_stop[0]) / step) + 1)):
+        r1 = step * f.subs({sym_x: x_list[i - 1], sym_y: y_list[i - 1]})
+        r2 = step * f.subs({sym_x: x_list[i - 1] + step/2, sym_y: y_list[i - 1] + r1/2})
+        r3 = step * f.subs({sym_x: x_list[i - 1] + step/2, sym_y: y_list[i - 1] + r2/2})
+        r4 = step * f.subs({sym_x: x_list[i - 1] + step, sym_y: y_list[i - 1] + r3})
+        x_list.append(x_list[i - 1] + step)
+        y_list.append(y_list[i - 1] + (r1+2*r2+2*r3+r4)/6)
+
+    # Outputting values to the terminal
+    print(f" y\'= F(x,y)\t:\ty\'= " + sympy.pretty(f) + "\n",
+          f"Cauchy problem: y(x) = something\t:\t y({koshi[0]}) = {koshi[1]}\n",
+          f"Start position: {start_stop[0]}\tStop postion: {start_stop[1]}\tStep: {step}\n\n"
+          f""
+          f"{'Index':<5}|{'x':>5}{'|':>5}{'y':>5}\n",
+          "=" * 26)
+    for index in range(len(x_list)):
+        print(f"{index:<5}|{x_list[index]:>8.4f} |{y_list[index]:>10.4f}")
+    print("\n" * 3)
+
+    return x_list, y_list
+
+
+# The function draws the integral curve
+def plotting(x, y, x2, y2, f):
+    plt.plot(x, y, marker='o', label='RK4 Method')
+    plt.plot(x2, y2, marker='*', label='RK4 Method')
+    plt.legend(["step: h", "step: h/2"])
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('Numerical Solution using four order RungeKutta method')
+    plt.grid(True)
+    equation_text = f"$y' = {sympy.latex(f)}$"
+    plt.text(1, 1, equation_text, fontsize=12, ha='right', va='top', transform=plt.gca().transAxes)
+    plt.show()
+
+
+if __name__ == "__main__":
+    # Enter your symbols
+    x_sym, y_sym = sympy.symbols('x y')
+
+    # Enter step
+    h = 0.2
+
+    # Enter x range of change
+    range_values = [2.6, 4.8]
+
+    # Enter f(x,y):   y' = f(x,y)
+    func = y_sym / x_sym - 1
+
+    # Enter the Cauchy problem: y(x_0) = Cauchy[1], x_0 = Cauchy[0]
+    cauchy = [2.6, 1]
+
+    x_vals, y_vals = rungekutta(range_values, cauchy, h, [x_sym, y_sym], func)
+
+    # Use double counting to check accuracy
+    x_vals2, y_vals2 = rungekutta(range_values, cauchy, h/2, [x_sym, y_sym], func)
+
+    # Draws the integral curves
+    plotting(x_vals, y_vals, x_vals2, y_vals2, func)
 
